@@ -1,21 +1,14 @@
 package se.lexicon.robincarl.model;
 
 public class Person {
-    private static int counter = 1;
     private final int personId;
     private String firstName;
     private String lastName;
 
-    public Person(String firstName , String lastName){
-        this();
+    public Person(int personId,String firstName , String lastName){
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Person(){
-        this.firstName = "Unknown first name";
-        this.lastName = "Unknown last name";
-        this.personId = counter++;
+        this.personId = personId;
     }
 
     public String getFirstName(){
