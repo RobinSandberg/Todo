@@ -12,6 +12,14 @@ public class Todo {
         this.description = description;
     }
 
+    public Person getPerson() {
+        return this.person;
+    }
+
+    public void setPerson(Person person){
+        this.person = person;
+    }
+
     public int getTotoId(){
         return this.todoId;
     }
@@ -20,7 +28,7 @@ public class Todo {
         return this.description;
     }
 
-    public void setDescription(){
+    public void setDescription(String description){
         this.description = description;
     }
 
@@ -28,7 +36,7 @@ public class Todo {
         return this.done;
     }
 
-    public void setDone(){
+    public void setDone(boolean done){
         this.done = done;
     }
 
