@@ -1,23 +1,19 @@
 package se.lexicon.robincarl.model;
 
 public class Todo {
-    public final int totoId;
+    public final int todoId;
     public String description;
     public boolean done;
     public Person person;
 
 
-    public Todo (int totoId, String description, boolean done, Person person) {
-        this.totoId = totoId;
+    public Todo (int todoId, String description) {
+        this.todoId = todoId;
         this.description = description;
     }
 
     public int getTotoId(){
-        return this.totoId;
-    }
-
-    public void setTotoId(){
-        this.totoId = totoId;
+        return this.todoId;
     }
 
     public String getDescription(){
