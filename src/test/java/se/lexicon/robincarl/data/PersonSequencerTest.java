@@ -1,15 +1,20 @@
 package se.lexicon.robincarl.data;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class PersonSequencerTest {
 
     @Test
     public void increase_Id_Successfully(){
-        int id = 0;
-        int result;
+        int reset = 0;
 
-        PersonSequencer id1 = new PersonSequencer();
-        
+        Assert.assertEquals(reset, PersonSequencer.reset());
+
+        int[] ids = new int[5];
+        for (int i = 0; i < ids.length; i++){
+            Assert.assertEquals(i,PersonSequencer.nextPersonId());
+        }
     }
+
 }
