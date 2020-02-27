@@ -1,45 +1,66 @@
 package se.lexicon.robincarl.data;
 
-import se.lexicon.robincarl.model.Person;
 import se.lexicon.robincarl.model.Todo;
 
 import java.util.Arrays;
 
 public class TodoItems {
-    private static Todo[] todo = new Todo[0];
+    private static Todo[] todoList = new Todo[0];
 
     public int size() {
-        return this.todo.length;
+        return this.todoList.length;
     }
 
     public Todo [] findTodo() {
-        return this.todo;
+        return this.todoList;
     }
 
     public Todo findByTodoId(int todoId) {
         int index =-1;
         for(int i = 0; i < size(); i++){
-            if(todo[i].getTodoId() == todoId){
+            if(todoList[i].getTodoId() == todoId){
                 index = i;
             }
         }
-        return this.todo[index];
+        return this.todoList[index];
     }
 
-    public Todo addTicketToTodo(String description){
-        Todo[] newTodo = Arrays.copyOf(this.todo, size()+1);
+    public Todo addTicketTodolist(String description){
+        Todo[] newTodo = Arrays.copyOf(this.todoList, size()+1);
         Todo task = new Todo(TodoSequencer.nextTodoId(),description);
         newTodo[newTodo.length-1] = task;
-        this.todo = newTodo;
+        this.todoList = newTodo;
         return task;
     }
 
     public void clear(){
-        todo = Arrays.copyOf(todo,size() - size());
+        todoList = Arrays.copyOf(todoList,size() - size());
     }
 
-    public static Todo[] findByDoneStatus(boolean doneStatus) {
-
-        return todo;
+    //---10a------------------------------------------------------------------------------------------------------------
+    public Todo[] findByDoneStatus(boolean doneStatus) {
+        Todo[] newStatus = new Todo[0];
+        int index = 0;
+        for (int i=0; i<size(); i++) {
+            if (todoList[i].getDone() == doneStatus){
+                newStatus = Arrays.copyOf(newStatus, newStatus.length+1);
+                newStatus[index] = todoList[i];
+                index++;
+            }
+        }
+        return newStatus;
+    }
+    //---10d------------------------------------------------------------------------------------------------------------
+    public Todo[] findUnassignedTodoItems() {
+        Todo[] newStatus = new Todo[0];
+        int index = 0;
+        for (int i=0; i<size(); i++) {
+            if (todoList[i].getPerson() == null) {
+                newStatus = Arrays.copyOf(newStatus, newStatus.length+1);
+                newStatus[index] = todoList[i];
+                index++;
+            }
+        }
+        return newStatus;
     }
 }

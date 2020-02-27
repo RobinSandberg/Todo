@@ -4,7 +4,7 @@ public class Todo {
     public final int todoId;
     public String description;
     public boolean done;
-    public Person person;
+    public Person assignee;
 
 
     public Todo (int todoId, String description) {
@@ -13,11 +13,11 @@ public class Todo {
     }
 
     public Person getPerson() {
-        return this.person;
+        return this.assignee;
     }
 
     public void setPerson(Person person){
-        this.person = person;
+        this.assignee = person;
     }
 
     public int getTodoId(){
