@@ -12,7 +12,7 @@ public class TodoItems {
         return this.todoList.length;
     }
 
-    public Todo [] findTodo() {
+    public Todo[] findAllTodo() {
         return this.todoList;
     }
 
@@ -35,7 +35,8 @@ public class TodoItems {
     }
 
     public void clear(){
-        todoList = Arrays.copyOf(todoList,size() - size());
+ /*       todoList = Arrays.copyOf(todoList,size() - size());*/
+        todoList = new Todo[0];
     }
 
     //---10a------------------------------------------------------------------------------------------------------------

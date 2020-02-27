@@ -1,13 +1,14 @@
 package se.lexicon.robincarl.data;
 
 public class TodoSequencer {
-    private static int todoID = 0;
+    private static int todoId = 0;
 
     public static int nextTodoId() {
-        return todoID++;
+        todoId++;
+        return todoId;
     }
 
     public static int reset(){
-        return todoID = 0;
+        return todoId = 0;
     }
 }
