@@ -38,5 +38,8 @@ public class TodoItems {
         todo = Arrays.copyOf(todo,size() - size());
     }
 
+    public static Todo[] findByDoneStatus(boolean doneStatus) {
 
+        return todo;
+    }
 }
