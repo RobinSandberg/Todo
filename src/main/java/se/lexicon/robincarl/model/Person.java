@@ -1,7 +1,7 @@
 package se.lexicon.robincarl.model;
 
 public class Person {
-    public final int personId;
+    private final int personId;
     private String firstName;
     private String lastName;
 
@@ -30,9 +30,5 @@ public class Person {
     public int getPersonId(){
         return personId;
     }
-
-   /* public void setPersonId(int personId){
-        this.personId = personId;
-    }*/
 
 }
