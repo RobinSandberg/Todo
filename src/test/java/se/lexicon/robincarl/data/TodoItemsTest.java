@@ -64,4 +64,9 @@ public class TodoItemsTest {
         Assert.assertEquals(expected, todoItems.size());
 
     }
+
+    @Test
+    public void findByDoneStatus(){
+
+    }
 }
