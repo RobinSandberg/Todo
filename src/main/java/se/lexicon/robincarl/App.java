@@ -8,17 +8,17 @@ public class App
 {
     public static void main( String[] args )
     {
-        for(int i = 0; i < 5;i++){
+        /*for(int i = 0; i < 5;i++){
             System.out.println(PersonSequencer.nextPersonId());
-        }
-
-        PersonSequencer.reset();
-        People test = new People();
-        System.out.println(test.size());
-        //test.addPersonToPeople(test.findAll(),"test","now");
-        System.out.println(test.size());
-        //System.out.println(test.findById(1).getFirstName());
+        }*/
 
 
+        People people1 = new People();
+        people1.addPersonToPeople( "Robin", "Sandberg");
+        people1.addPersonToPeople( "Bengt", "Svensson");
+
+        System.out.println(people1.size());
+        System.out.println(people1.findAll()[1].getPersonId());
+        System.out.println(people1.findById(2).getFirstName());
     }
 }

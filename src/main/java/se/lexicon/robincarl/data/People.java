@@ -16,7 +16,7 @@ public class People {
     }
 
     public Person findById(int personId){
-        int index =-1;
+        int index = -1;
         for(int i = 0; i < size(); i++){
             if(this.people[i].getPersonId() == personId){
                 index = i;
@@ -25,12 +25,12 @@ public class People {
         return this.people[index];
     }
 
-    public Person[] addPersonToPeople(Person[] people ,String firstName, String lastName){
-        Person[] newPeople = Arrays.copyOf(people, size()+1);
+    public Person addPersonToPeople(String firstName, String lastName){
+        Person[] newPeople = Arrays.copyOf(this.people, size()+1);
         Person person = new Person(PersonSequencer.nextPersonId(),firstName,lastName);
         newPeople[newPeople.length-1] = person;
         this.people = newPeople;
-        return this.people;
+        return person;
     }
 
     public void clear(){
