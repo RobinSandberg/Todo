@@ -12,7 +12,7 @@ public class TodoTest {
 
         Todo todo1 = new Todo(todoId, description);
 
-        Assert.assertEquals(todoId, todo1.getTotoId());
+        Assert.assertEquals(todoId, todo1.getTodoId());
         Assert.assertEquals(description, todo1.getDescription());
     }
 }

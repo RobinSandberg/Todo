@@ -20,7 +20,7 @@ public class Todo {
         this.person = person;
     }
 
-    public int getTotoId(){
+    public int getTodoId(){
         return this.todoId;
     }
 
