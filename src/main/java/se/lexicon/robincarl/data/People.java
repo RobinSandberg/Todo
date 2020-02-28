@@ -44,17 +44,15 @@ public class People {
     // Similar to add but finding a persons Id and remove him from array and shorten the array
     // with 1 only if the person is removed.
     public void removePersonFromPeople(int personId){
-        Person[] newPeople = Arrays.copyOf(this.people, size());
         int index = 0;
         for(int i = 0; i < size();i++){
             if(people[i].getPersonId() ==  personId){
-                newPeople = Arrays.copyOf(newPeople, size()-1);
+                people = Arrays.copyOf(people, size()-1);
             }else if (people[i].getPersonId() != personId){
-                newPeople[index] = people[i];
+                people[index] = people[i];
                 index++;
             }
         }
-        this.people = newPeople;
     }
 
 }
