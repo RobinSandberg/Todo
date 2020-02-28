@@ -15,15 +15,17 @@ public class PeopleTest {
         People people = new People();
         people.addPersonToPeople(firstName,lastName);
 
+        Person[] tempPeople = people.findAll();
 
-        Assert.assertEquals(id, people.findById(1).getPersonId());
-        Assert.assertEquals(firstName, people.findById(1).getFirstName());
-        Assert.assertEquals(lastName, people.findById(1).getLastName());
+
+        Assert.assertEquals(id, tempPeople[0].getPersonId());
+        Assert.assertEquals(firstName, tempPeople[0].getFirstName());
+        Assert.assertEquals(lastName, tempPeople[0].getLastName());
 
     }
 
     @Test
-    public void clean_The_people_Array_successfully() {
+    public void clear_The_people_Array_successfully() {
         People people = new People();
         people.addPersonToPeople( "Robin", "Sandberg");
         people.addPersonToPeople( "Bengt", "Svensson");
@@ -68,5 +70,21 @@ public class PeopleTest {
 
         Assert.assertEquals(expected, people.findAll().length);
 
+    }
+
+    @Test
+    public void remove_Person_Successfully(){
+        People people = new People();
+        people.addPersonToPeople( "Robin", "Sandberg");
+        people.addPersonToPeople( "Bengt", "Svensson");
+        people.addPersonToPeople( "Adam", "Codemasters");
+        people.addPersonToPeople( "Carl", "Jensen");
+        people.addPersonToPeople( "vera", "wings");
+        int expected = 4;
+
+        people.removePersonFromPeople(2);
+        Assert.assertEquals(expected, people.findAll().length);
+
+        Assert.assertNull(people.findById(2));
     }
 }
