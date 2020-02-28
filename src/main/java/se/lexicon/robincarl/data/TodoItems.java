@@ -93,4 +93,17 @@ public class TodoItems {
         }
         return newUnassigned;
     }
+    //---11-------------------------------------------------------------------------------------------------------------
+    public void removeTaskFromTodo(int todoId){
+        int index = 0;
+        for(int i=0; i<size(); i++){
+            if(todoList[i].getTodoId() == todoId){
+                todoList = Arrays.copyOf(todoList, size()-1);
+            }
+            else if (todoList[i].getTodoId() != todoId){
+                todoList[index] = todoList[i];
+                index++;
+            }
+        }
+    }
 }

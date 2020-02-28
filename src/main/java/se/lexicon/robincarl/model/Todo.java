@@ -1,10 +1,10 @@
 package se.lexicon.robincarl.model;
 
 public class Todo {
-    public final int todoId;
-    public String description;
-    public boolean done;
-    public Person person;
+    private final int todoId;
+    private String description;
+    private boolean done;
+    private Person person;
 
 
     public Todo (int todoId, String description) {
