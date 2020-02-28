@@ -15,6 +15,8 @@ public class People {
         return this.people;
     }
 
+    // Running a index to save what index the id have in the for loop to return.
+    // It will return null if the Id don't exist.
     public Person findById(int personId){
         int index = -1;
         for(int i = 0; i < size(); i++){
@@ -22,9 +24,12 @@ public class People {
                 index = i;
             }
         }
+        if (index == -1){
+            return null;
+        }
         return this.people[index];
     }
-
+    // Adding a new person to the people list using only the name. The Id get called in creation.
     public Person addPersonToPeople(String firstName, String lastName){
         Person[] newPeople = Arrays.copyOf(this.people, size()+1);
         Person person = new Person(PersonSequencer.nextPersonId(),firstName,lastName);
@@ -32,9 +37,22 @@ public class People {
         this.people = newPeople;
         return person;
     }
-
+    // Making a new array to get a clear one.
     public void clear(){
-        people = Arrays.copyOf(people,size() - size());
+        people = new Person[0];
+    }
+    // Similar to add but finding a persons Id and remove him from array and shorten the array
+    // with 1 only if the person is removed.
+    public void removePersonFromPeople(int personId){
+        Person[] newPeople = Arrays.copyOf(this.people, size());
+        for(int i = 0; i < size();i++){
+            if(people[i].getPersonId() ==  personId){
+                newPeople = Arrays.copyOf(newPeople, size()-1);
+            }else if (people[i].getPersonId() != personId){
+                newPeople[newPeople.length-1] = people[i];
+            }
+        }
+        this.people = newPeople;
     }
 
 }
