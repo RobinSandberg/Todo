@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import se.lexicon.robincarl.model.Todo;
 
+import java.util.Arrays;
+
 public class TodoItemsTest {
     @Test
     public void sizeCheck(){
@@ -67,6 +69,17 @@ public class TodoItemsTest {
 
     @Test
     public void findByDoneStatus(){
+        String beskrivning1 = "Beskrivning";
+        String beskrivning2 = "Nummer 2";
+        TodoItems todoItems = new TodoItems();
+        todoItems.addTicketTodolist(beskrivning1);
+        todoItems.addTicketTodolist(beskrivning2);
+        todoItems.findByTodoId(1).setDone(true);
+        todoItems.findByTodoId(2).setDone(false);
+        int expected = 1;
 
+        Todo[] temp = todoItems.findByDoneStatus(true);
+
+        Assert.assertEquals(expected, temp.length);
     }
 }

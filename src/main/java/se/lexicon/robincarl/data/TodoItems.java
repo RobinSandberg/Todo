@@ -57,10 +57,12 @@ public class TodoItems {
         Todo[] assignedTasks = new Todo[0];
         int index = 0;
         for (int i=0; i<size(); i++) {
-            if (todoList[i].getPerson().getPersonId() == personId) {
-                assignedTasks = Arrays.copyOf(assignedTasks, assignedTasks.length+1);
-                assignedTasks[index] = todoList[i];
-                index++;
+            if (todoList[i].getPerson() != null) {
+                if (todoList[i].getPerson().getPersonId() == personId) {
+                    assignedTasks = Arrays.copyOf(assignedTasks, assignedTasks.length + 1);
+                    assignedTasks[index] = todoList[i];
+                    index++;
+                }
             }
         }
         return assignedTasks;
