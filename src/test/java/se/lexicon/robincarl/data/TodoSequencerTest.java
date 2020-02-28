@@ -13,7 +13,7 @@ public class TodoSequencerTest {
         Assert.assertEquals(reset, TodoSequencer.reset());
         int[] ids = new int[5];
         for (int i=0; i<5; i++){
-            Assert.assertEquals(i, TodoSequencer.nextTodoId());
+            Assert.assertEquals(i+1, TodoSequencer.nextTodoId());
         }
 
     }

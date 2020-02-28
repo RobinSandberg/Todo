@@ -76,7 +76,7 @@ public class PeopleTest {
 
         people.removePersonFromPeople(2);
 
-        Assert.assertEquals(expected, people.findAll().length);
+        Assert.assertEquals(expected, people.size());
         Assert.assertNull(people.findById(2));
     }
 }

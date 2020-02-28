@@ -38,7 +38,7 @@ public class TodoItemsTest {
     @Test
     public void sizeCheck(){
 
-        int expected = 2;
+        int expected = 4;
 
         Assert.assertEquals(expected, todoItems.size());
     }
@@ -46,7 +46,7 @@ public class TodoItemsTest {
     @Test
     public void findAllTodo(){
 
-        int expected = 2;
+        int expected = 4;
 
         Assert.assertEquals(expected, todoItems.findAllTodo().length);
 
@@ -63,7 +63,7 @@ public class TodoItemsTest {
     @Test
     public void addTicketTodolist(){
         String beskrivning1 = "Beskrivning";
-        int id = 3;
+        int id = 5;
 
         todoItems.addTicketTodolist(beskrivning1);
 
@@ -141,7 +141,7 @@ public class TodoItemsTest {
 //------------------11--------------------------------------------------------------------------------------------------
     @Test
     public void removeTaskFromTodo(){
-        int expected = 1;
+        int expected = 3;
 
         todoItems.removeTaskFromTodo(2);
 
