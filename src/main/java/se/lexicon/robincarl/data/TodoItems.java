@@ -23,6 +23,10 @@ public class TodoItems {
                 index = i;
             }
         }
+        if (index == -1){
+            return null;
+        }
+
         return this.todoList[index];
     }
 

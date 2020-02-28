@@ -102,4 +102,14 @@ public class TodoItemsTest {
 
         Assert.assertEquals(expected,todoItems.findByAssignee(id).length);
     }
+
+    @Test
+    public void removeTaskFromTodo(){
+        int expected = 1;
+
+        todoItems.removeTaskFromTodo(2);
+
+        Assert.assertEquals(expected, todoItems.size());
+        Assert.assertNull(todoItems.findByTodoId(2));
+    }
 }
