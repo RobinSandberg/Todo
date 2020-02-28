@@ -83,8 +83,8 @@ public class PeopleTest {
         int expected = 4;
 
         people.removePersonFromPeople(2);
-
         Assert.assertEquals(expected, people.findAll().length);
 
+        Assert.assertNull(people.findById(2));
     }
 }
