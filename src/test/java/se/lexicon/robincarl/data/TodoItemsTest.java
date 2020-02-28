@@ -18,10 +18,13 @@ public class TodoItemsTest {
         todoItems = new TodoItems();
         todoItems.addTicketTodolist("Beskrivning");
         todoItems.addTicketTodolist("Nummer 2");
+        todoItems.addTicketTodolist("Nummer 3");
+        todoItems.addTicketTodolist("Nummer 4");
 
         people = new People();
         people.addPersonToPeople("Robin", "Sandberg");
         people.addPersonToPeople("Bengt", "Svensson");
+        people.addPersonToPeople("Erik", "Medeltal");
     }
 
     @After
@@ -89,9 +92,9 @@ public class TodoItemsTest {
 
         Assert.assertEquals(expected, temp.length);
     }
-
+//------------------10b-------------------------------------------------------------------------------------------------
     @Test
-    public void find_By_Assignee_Successfully(){
+    public void find_By_Assignee_Id_Successfully(){
         int id = 1;
         int expected = 1;
         Todo[] tempTodoItems = todoItems.findAllTodo();
@@ -102,7 +105,40 @@ public class TodoItemsTest {
 
         Assert.assertEquals(expected,todoItems.findByAssignee(id).length);
     }
+//------------------10c-------------------------------------------------------------------------------------------------
+    @Test
+    public void find_By_Assignee_Person_Successfully(){
 
+        int expected = 2;
+        Todo[] tempTodo = todoItems.findAllTodo();
+        Person[] tempPerson = people.findAll();
+
+        tempTodo[0].setPerson(tempPerson[0]);
+        tempTodo[1].setPerson(tempPerson[1]);
+        tempTodo[2].setPerson(tempPerson[2]);
+        tempTodo[3].setPerson(tempPerson[2]);
+
+        Assert.assertEquals(expected, todoItems.findByAssignee(tempPerson[2]).length);
+
+
+    }
+//------------------10d-------------------------------------------------------------------------------------------------
+    @Test
+    public void find_Unassigned_TodoItems(){
+
+        int expected=3;
+
+        Todo[] tempTodo = todoItems.findAllTodo();
+        Person[] tempPerson = people.findAll();
+
+        tempTodo[0].setPerson(tempPerson[0]);
+
+        Assert.assertEquals(expected, todoItems.findUnassignedTodoItems().length);
+
+
+
+    }
+//------------------11--------------------------------------------------------------------------------------------------
     @Test
     public void removeTaskFromTodo(){
         int expected = 1;
