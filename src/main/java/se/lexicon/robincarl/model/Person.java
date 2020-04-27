@@ -1,9 +1,14 @@
 package se.lexicon.robincarl.model;
 
 public class Person {
-    private final int personId;
+    private int personId;
     private String firstName;
     private String lastName;
+
+    public Person(String firstName , String lastName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public Person(int personId,String firstName , String lastName){
         this.firstName = firstName;

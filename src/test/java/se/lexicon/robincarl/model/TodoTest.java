@@ -6,7 +6,7 @@ import org.junit.Test;
 public class TodoTest {
 
     @Test
-    public void dethärtestetgickbra() {
+    public void create_Todo_item_Successfully() {
         int todoId = 1;
         String description = "Beskrivning";
 
