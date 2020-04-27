@@ -1,4 +1,4 @@
-package se.lexicon.robincarl.data;
+package se.lexicon.robincarl.dao;
 
 import java.io.File;
 import java.io.FileInputStream;

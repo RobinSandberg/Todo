@@ -36,4 +36,10 @@ public class Person {
         return personId;
     }
 
+    @Override
+    public String toString() {
+        return "Person Id = " + personId +
+                ", First Name = " + firstName +
+                ", Last Name = " + lastName;
+    }
 }
