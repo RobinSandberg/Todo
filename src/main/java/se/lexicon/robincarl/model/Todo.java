@@ -1,36 +1,38 @@
 package se.lexicon.robincarl.model;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Todo {
     private int id;
     private String title;
     private String description;
-    private LocalDate deadline;
+    private Date deadline;
     private boolean done;
-    private Person person;
+    private int assignee_id;
 
-    public Todo (String title ,String description, LocalDate deadline, boolean done) {
+    public Todo (String title ,String description, Date deadline, boolean done) {
         this.title = title;
         this.description = description;
         this.deadline = deadline;
         this.done = done;
     }
 
-    public Todo (int id,String title, String description, LocalDate deadline, boolean done) {
+    public Todo (int id,String title, String description, Date deadline, boolean done , int assignee_id) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.deadline = deadline;
         this.done = done;
+        this.assignee_id = assignee_id;
     }
 
-    public Person getPerson() {
-        return this.person;
+    public int getAssignee_id() {
+        return this.assignee_id;
     }
 
-    public void setPerson(Person person){
-        this.person = person;
+    public void setAssignee_id(Person assignee_id){
+        this.assignee_id = assignee_id.getPersonId();
     }
 
     public int getTodoId(){
@@ -53,11 +55,11 @@ public class Todo {
         this.description = description;
     }
 
-    public LocalDate getDeadline(){
+    public Date getDeadline(){
         return this.deadline;
     }
 
-    public void setDeadline(LocalDate deadline){
+    public void setDeadline(Date deadline){
         this.deadline = deadline;
     }
 
@@ -76,6 +78,6 @@ public class Todo {
                 ", description = " + description +
                 ", deadline = " + deadline +
                 ", done = " + done +
-                ", person = " + person;
+                ", person = " + assignee_id;
     }
 }

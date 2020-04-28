@@ -6,6 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.lexicon.robincarl.dao.DatabaseConnection.getConnection;
+
 public class PeopleDAOImpl implements PeopleDAO{
 
     private static final String FIND_ALL_STRING = "SELECT * FROM person";
@@ -14,13 +16,13 @@ public class PeopleDAOImpl implements PeopleDAO{
     private static final String CHECK_FOR_NAME_STRING = "SELECT * FROM person WHERE first_name LIKE ? AND last_name LIKE ?";
     private static final String CREATE_PERSON_STRING = "INSERT INTO person (first_name, last_name) VALUES (?,?)";
     private static final String UPDATE_PERSON_STRING = "UPDATE person SET first_name = ? , last_name = ? WHERE person_id = ?";
-    private static final String DELETE_PERSON_STRING = "SELECT * FROM person WHERE person_id = ?";
+    private static final String DELETE_PERSON_STRING = "DELETE FROM person WHERE person_id = ?";
     private static ResultSet resultSet = null;
 
     @Override
     public List<Person> findAll(){
         List<Person> allPeople = new ArrayList<>();
-        try(Connection connection = ConnectionOpener.getConnection(); PreparedStatement findAllPeople = connection.prepareStatement(FIND_ALL_STRING)){
+        try(Connection connection = getConnection(); PreparedStatement findAllPeople = connection.prepareStatement(FIND_ALL_STRING)){
             resultSet = findAllPeople.executeQuery();
             while (resultSet.next()){
                 allPeople.add(new Person(resultSet.getInt("person_id"),resultSet.getString("first_name"),
@@ -43,10 +45,10 @@ public class PeopleDAOImpl implements PeopleDAO{
     @Override
     public Person findById(int personId){
         Person foundPerson = null;
-        try(Connection connection = ConnectionOpener.getConnection(); PreparedStatement findById = connection.prepareStatement(FIND_BY_ID_STRING)){
+        try(Connection connection = getConnection(); PreparedStatement findById = connection.prepareStatement(FIND_BY_ID_STRING)){
             findById.setInt(1,personId);
             resultSet = findById.executeQuery();
-            while (resultSet.next()){
+            if(resultSet.next()){
                 foundPerson = new Person(resultSet.getInt("person_id"),resultSet.getString("first_name"),
                         resultSet.getString("last_name"));
             }
@@ -67,7 +69,7 @@ public class PeopleDAOImpl implements PeopleDAO{
     @Override
     public List<Person> findByName(String PersonName){
         List<Person> foundPeople = new ArrayList<>();
-        try(Connection connection = ConnectionOpener.getConnection(); PreparedStatement findByName = connection.prepareStatement(FIND_By_NAME_STRING)){
+        try(Connection connection = getConnection(); PreparedStatement findByName = connection.prepareStatement(FIND_By_NAME_STRING)){
             findByName.setString(1, PersonName+"%");
             findByName.setString(2, PersonName+"%");
             resultSet = findByName.executeQuery();
@@ -92,7 +94,7 @@ public class PeopleDAOImpl implements PeopleDAO{
     @Override
     public boolean addPerson(Person person){
         boolean successfullyAdded = false;
-        try(Connection connection = ConnectionOpener.getConnection(); PreparedStatement createPerson = connection.prepareStatement(CREATE_PERSON_STRING)){
+        try(Connection connection = getConnection(); PreparedStatement createPerson = connection.prepareStatement(CREATE_PERSON_STRING)){
             Person foundPerson = CheckForPerson(person.getFirstName(),person.getLastName());
             if(foundPerson == null){
                 createPerson.setString(1,person.getFirstName());
@@ -108,7 +110,7 @@ public class PeopleDAOImpl implements PeopleDAO{
 
     @Override
     public Person updatePerson(Person person){
-        try(Connection connection = ConnectionOpener.getConnection(); PreparedStatement updatePerson = connection.prepareStatement(UPDATE_PERSON_STRING)){
+        try(Connection connection = getConnection(); PreparedStatement updatePerson = connection.prepareStatement(UPDATE_PERSON_STRING)){
             updatePerson.setString(1,person.getFirstName());
             updatePerson.setString(2,person.getLastName());
             updatePerson.setInt(3, person.getPersonId());
@@ -122,10 +124,9 @@ public class PeopleDAOImpl implements PeopleDAO{
     @Override
     public boolean deletePerson(int personId){
         boolean successfullyDeleted = false;
-        try(Connection connection = ConnectionOpener.getConnection(); PreparedStatement deleteById = connection.prepareStatement(DELETE_PERSON_STRING)){
+        try(Connection connection = getConnection(); PreparedStatement deleteById = connection.prepareStatement(DELETE_PERSON_STRING)){
             deleteById.setInt(1,personId);
-            deleteById.executeUpdate();
-            successfullyDeleted = true;
+            successfullyDeleted = deleteById.execute();
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -134,7 +135,7 @@ public class PeopleDAOImpl implements PeopleDAO{
 
     public Person CheckForPerson(String first_name,String last_name){
         Person foundPerson = null;
-        try(Connection connection = ConnectionOpener.getConnection(); PreparedStatement findByName = connection.prepareStatement(CHECK_FOR_NAME_STRING)){
+        try(Connection connection = getConnection(); PreparedStatement findByName = connection.prepareStatement(CHECK_FOR_NAME_STRING)){
             findByName.setString(1, first_name);
             findByName.setString(2, last_name);
             resultSet = findByName.executeQuery();

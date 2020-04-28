@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 
-public class ConnectionOpener {
+public class DatabaseConnection {
 
-    public static Connection getConnection() throws SQLException {
-        String host = null;
-        String login = null;
-        String password = null;
+    private static String host = null;
+    private static String login = null;
+    private static String password = null;
+
+    static {
         File DBConfig = new File("src/main/resources/DBConfig.dat");
         try(FileInputStream DBStream = new FileInputStream(DBConfig)){
             Properties dbProperties = new Properties();
@@ -22,6 +23,9 @@ public class ConnectionOpener {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(host, login, password);
     }
 }
