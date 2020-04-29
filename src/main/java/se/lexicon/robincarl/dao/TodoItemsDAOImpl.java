@@ -4,18 +4,18 @@ import se.lexicon.robincarl.model.Person;
 import se.lexicon.robincarl.model.Todo;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static se.lexicon.robincarl.dao.DatabaseConnection.getConnection;
 
 public class TodoItemsDAOImpl implements TodoItemsDAO{
 
-    //todo_id, title , description , deadline, done, assignee_id
     private static final String FIND_ALL_STRING = "SELECT * FROM todo_item";
     private static final String FIND_BY_ID_STRING = "SELECT * FROM todo_item WHERE todo_id = ?";
-    private static final String FIND_By_DONE_STATUS_STRING = "SELECT * FROM todo_item WHERE first_name LIKE ? OR last_name LIKE ?";
+    private static final String FIND_By_DONE_STATUS_STRING = "SELECT * FROM todo_item WHERE done = ?";
     private static final String FIND_BY_ASSIGNEE_STRING = "SELECT * FROM todo_item WHERE assignee_id = ?";
-    private static final String FIND_BY_UNASSIGNED_STRING = "SELECT * FROM todo_item WHERE assignee_id = ?";
+    private static final String FIND_BY_UNASSIGNED_STRING = "SELECT * FROM todo_item WHERE assignee_id IS NULL";
     private static final String CHECK_FOR_TITLE_STRING = "SELECT * FROM todo_item WHERE title LIKE ?";
     private static final String CREATE_TODO_STRING = "INSERT INTO todo_item (title, description, deadline, done) VALUES (?,?,?,?)";
     private static final String UPDATE_TODO_STRING = "UPDATE todo_item SET title = ? , description = ?, deadline = ?" +
@@ -26,7 +26,26 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
 
     @Override
     public List<Todo> findAll() {
-        return null;
+        List<Todo> foundTodoList = new ArrayList<>();
+        try(Connection connection = getConnection(); PreparedStatement findAll = connection.prepareStatement(FIND_ALL_STRING)){
+            resultSet = findAll.executeQuery();
+            while (resultSet.next()){
+                foundTodoList.add(new Todo(resultSet.getInt("todo_id"),resultSet.getString("title"),
+                        resultSet.getString("description"),resultSet.getDate("deadline"),
+                        resultSet.getBoolean("done"),resultSet.getInt("assignee_id")));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return foundTodoList;
     }
 
     @Override
@@ -55,27 +74,102 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
     }
 
     @Override
-    public List<Todo> findByDoneStatus(boolean Status) {
-
-        return null;
+    public List<Todo> findByDoneStatus(boolean status) {
+        List<Todo> foundTodoList = new ArrayList<>();
+        try(Connection connection = getConnection(); PreparedStatement findByDoneStatus = connection.prepareStatement(FIND_By_DONE_STATUS_STRING)){
+            findByDoneStatus.setBoolean(1,status);
+            resultSet = findByDoneStatus.executeQuery();
+            while (resultSet.next()){
+                foundTodoList.add(new Todo(resultSet.getInt("todo_id"),resultSet.getString("title"),
+                        resultSet.getString("description"),resultSet.getDate("deadline"),
+                        resultSet.getBoolean("done"),resultSet.getInt("assignee_id")));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return foundTodoList;
     }
 
     @Override
     public List<Todo> findByAssignee(int personId) {
-
-        return null;
+        List<Todo> foundTodoList = new ArrayList<>();
+        try(Connection connection = getConnection(); PreparedStatement findByAssigneeId = connection.prepareStatement(FIND_BY_ASSIGNEE_STRING)){
+            findByAssigneeId.setInt(1,personId);
+            resultSet = findByAssigneeId.executeQuery();
+            while (resultSet.next()){
+                foundTodoList.add(new Todo(resultSet.getInt("todo_id"),resultSet.getString("title"),
+                        resultSet.getString("description"),resultSet.getDate("deadline"),
+                        resultSet.getBoolean("done"),resultSet.getInt("assignee_id")));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return foundTodoList;
     }
 
     @Override
     public List<Todo> findByAssignee(Person person) {
-
-        return null;
+        List<Todo> foundTodoList = new ArrayList<>();
+        try(Connection connection = getConnection(); PreparedStatement findByAssignee = connection.prepareStatement(FIND_BY_ASSIGNEE_STRING)){
+            findByAssignee.setInt(1,person.getPersonId());
+            resultSet = findByAssignee.executeQuery();
+            while (resultSet.next()){
+                foundTodoList.add(new Todo(resultSet.getInt("todo_id"),resultSet.getString("title"),
+                        resultSet.getString("description"),resultSet.getDate("deadline"),
+                        resultSet.getBoolean("done"),resultSet.getInt("assignee_id")));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return foundTodoList;
     }
 
     @Override
     public List<Todo> findByUnassignedTodoItems() {
-
-        return null;
+        List<Todo> foundTodoList = new ArrayList<>();
+        try(Connection connection = getConnection(); PreparedStatement findByUnassigned = connection.prepareStatement(FIND_BY_UNASSIGNED_STRING)){
+            resultSet = findByUnassigned.executeQuery();
+            while (resultSet.next()){
+                foundTodoList.add(new Todo(resultSet.getInt("todo_id"),resultSet.getString("title"),
+                        resultSet.getString("description"),resultSet.getDate("deadline"),
+                        resultSet.getBoolean("done"),resultSet.getInt("assignee_id")));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return foundTodoList;
     }
 
     @Override
@@ -106,6 +200,29 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
             }
         }
         return addedTodo;
+    }
+
+    public Todo update(Todo todo){
+        try(Connection connection = getConnection(); PreparedStatement updateTodo = connection.prepareStatement(UPDATE_TODO_STRING)){
+            updateTodo.setString(1,todo.getTitle());
+            updateTodo.setString(2,todo.getDescription());
+            updateTodo.setDate(3,todo.getDeadline());
+            updateTodo.setBoolean(4,todo.getDone());
+            updateTodo.setInt(5,todo.getAssignee_id());
+            updateTodo.setInt(6,todo.getTodoId());
+            updateTodo.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(resultSet != null){
+                    resultSet.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return findById(todo.getTodoId());
     }
 
     @Override

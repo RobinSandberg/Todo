@@ -18,6 +18,14 @@ public class Todo {
         this.done = done;
     }
 
+    public Todo (String title ,String description, Date deadline, boolean done, int assignee_id) {
+        this.title = title;
+        this.description = description;
+        this.deadline = deadline;
+        this.done = done;
+        this.assignee_id = assignee_id;
+    }
+
     public Todo (int id,String title, String description, Date deadline, boolean done , int assignee_id) {
         this.id = id;
         this.title = title;
