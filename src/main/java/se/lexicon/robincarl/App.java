@@ -7,7 +7,6 @@ import se.lexicon.robincarl.model.Todo;
 
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +22,12 @@ public class App
         foundPeople.forEach(System.out::println);
         TodoItemsDAOImpl todoItems = new TodoItemsDAOImpl();
         Todo todo = new Todo("Doom", "Finish the game Doom eternal.", Date.valueOf("2020-06-25"), false);
-        System.out.println(todoItems.create(todo));
+        System.out.println(todoItems.create(todo) != null);
         todo = new Todo("Warframe", "Farm for Titania prime.", Date.valueOf("2020-05-20"), false);
-        System.out.println(todoItems.create(todo));
+        System.out.println(todoItems.create(todo) != null);
         todo = new Todo("Dinner", "Pick up pizza.", Date.valueOf("2020-05-28"), true);
-        System.out.println(todoItems.create(todo));
-        List<Todo> foundTodoList = new ArrayList<>();
+        System.out.println(todoItems.create(todo) != null);
+        List<Todo> foundTodoList;
         person = people.findById(1);
         foundTodoList = todoItems.findByAssignee(person);
         foundTodoList.forEach(System.out::println);

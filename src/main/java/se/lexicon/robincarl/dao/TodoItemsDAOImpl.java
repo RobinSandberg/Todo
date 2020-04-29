@@ -16,7 +16,8 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
     private static final String FIND_By_DONE_STATUS_STRING = "SELECT * FROM todo_item WHERE done = ?";
     private static final String FIND_BY_ASSIGNEE_STRING = "SELECT * FROM todo_item WHERE assignee_id = ?";
     private static final String FIND_BY_UNASSIGNED_STRING = "SELECT * FROM todo_item WHERE assignee_id IS NULL";
-    private static final String CHECK_FOR_TITLE_STRING = "SELECT * FROM todo_item WHERE title LIKE ?";
+    private static final String CHECK_FOR_TODO_STRING = "SELECT * FROM todo_item WHERE title LIKE ? AND description LIKE ?" +
+            "AND deadline = ? AND done = ?";
     private static final String CREATE_TODO_STRING = "INSERT INTO todo_item (title, description, deadline, done) VALUES (?,?,?,?)";
     private static final String UPDATE_TODO_STRING = "UPDATE todo_item SET title = ? , description = ?, deadline = ?" +
             ", done = ? , assignee_id = ? WHERE todo_id = ?";
@@ -176,7 +177,7 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
     public Todo create(Todo todo){
         Todo addedTodo = null;
         try(Connection connection = getConnection(); PreparedStatement createTodo = connection.prepareStatement(CREATE_TODO_STRING, Statement.RETURN_GENERATED_KEYS)){
-            Todo foundTodo = CheckForTodo(todo.getTitle());
+            Todo foundTodo = CheckForTodo(todo);
             if(foundTodo == null){
                 createTodo.setString(1,todo.getTitle());
                 createTodo.setString(2,todo.getDescription());
@@ -238,10 +239,13 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
         return successfullyDeleted;
     }
 
-    public Todo CheckForTodo(String title){
+    public Todo CheckForTodo(Todo todo){
         Todo foundTodo = null;
-        try(Connection connection = getConnection(); PreparedStatement findByTitle = connection.prepareStatement(CHECK_FOR_TITLE_STRING)){
-            findByTitle.setString(1, title);
+        try(Connection connection = getConnection(); PreparedStatement findByTitle = connection.prepareStatement(CHECK_FOR_TODO_STRING)){
+            findByTitle.setString(1, todo.getTitle());
+            findByTitle.setString(2, todo.getDescription());
+            findByTitle.setDate(3, todo.getDeadline());
+            findByTitle.setBoolean(4, todo.getDone());
             resultSet = findByTitle.executeQuery();
             while (resultSet.next()){
                 foundTodo = new Todo(resultSet.getInt("todo_id"),resultSet.getString("title"),
