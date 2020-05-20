@@ -18,7 +18,7 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
     private static final String FIND_BY_UNASSIGNED_STRING = "SELECT * FROM todo_item WHERE assignee_id IS NULL";
     private static final String CHECK_FOR_TODO_STRING = "SELECT * FROM todo_item WHERE title LIKE ? AND description LIKE ?" +
             "AND deadline = ? AND done = ?";
-    private static final String CREATE_TODO_STRING = "INSERT INTO todo_item (title, description, deadline, done) VALUES (?,?,?,?)";
+    private static final String CREATE_TODO_ASSIGNEE_STRING = "INSERT INTO todo_item (title, description, deadline, done, assignee_id) VALUES (?,?,?,?,?)";
     private static final String UPDATE_TODO_STRING = "UPDATE todo_item SET title = ? , description = ?, deadline = ?" +
             ", done = ? , assignee_id = ? WHERE todo_id = ?";
     private static final String DELETE_TODO_STRING = "DELETE FROM todo_item WHERE todo_id = ?";
@@ -176,13 +176,24 @@ public class TodoItemsDAOImpl implements TodoItemsDAO{
     @Override
     public Todo create(Todo todo){
         Todo addedTodo = null;
-        try(Connection connection = getConnection(); PreparedStatement createTodo = connection.prepareStatement(CREATE_TODO_STRING, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection connection = getConnection(); PreparedStatement createTodo = connection.prepareStatement(CREATE_TODO_ASSIGNEE_STRING, Statement.RETURN_GENERATED_KEYS)){
             Todo foundTodo = CheckForTodo(todo);
             if(foundTodo == null){
                 createTodo.setString(1,todo.getTitle());
                 createTodo.setString(2,todo.getDescription());
                 createTodo.setDate(3,todo.getDeadline());
                 createTodo.setBoolean(4,todo.getDone());
+                if(todo.getAssignee_id() > 0){
+                    PeopleDAOImpl people = new PeopleDAOImpl();
+                    Person person = people.findById(todo.getAssignee_id());
+                    if(person != null) {
+                        createTodo.setInt(5, person.getPersonId());
+                    }else{
+                        createTodo.setNull(5, java.sql.Types.INTEGER);
+                    }
+                }else{
+                    createTodo.setNull(5, java.sql.Types.INTEGER);
+                }
                 createTodo.executeUpdate();
                 resultSet = createTodo.getGeneratedKeys();
                 if(resultSet.next()){
